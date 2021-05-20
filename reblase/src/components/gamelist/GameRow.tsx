@@ -96,6 +96,21 @@ export const Weather = React.memo((props: { weather: number | null; className?: 
     );
 });
 
+function getTeamNameClassName(team: TeamData) {
+    if (!team.win) {
+        return "font-normal";
+    }
+
+    let winningClassName = "font-semibold";
+
+    if (!team.gameComplete) {
+        return winningClassName;
+
+    }
+
+    return `${winningClassName} bg-gray-800 text-white p-1 rounded-md`;
+}
+
 interface TeamData {
     name: string;
     emoji: string;
@@ -103,13 +118,14 @@ interface TeamData {
     pitcher: string | null;
     predictedPitcher: string | null;
     win: boolean;
+    gameComplete: boolean;
 }
 
 const TeamScoreLine = React.memo((props: { team: TeamData }) => {
     return (
         <div className="space-x-2">
             <span className="inline-block w-6 font-lg font-semibold text-right tabular-nums">{props.team.score}</span>
-            <span className={props.team.win ? "font-semibold" : "font-normal"}>
+            <span className={getTeamNameClassName(props.team)}>
                 <Twemoji emoji={props.team.emoji} className="mr-1" /> {props.team.name}
             </span>
             <span className="text-sm text-gray-700 dark:text-gray-300 italic">
@@ -131,16 +147,20 @@ const TwoLineTeamScore = React.memo((props: { away: TeamData; home: TeamData; cl
 const OneLineTeamScore = React.memo((props: { away: TeamData; home: TeamData; className?: string }) => {
     return (
         <div className={`flex flex-row space-x-2 items-baseline ${props.className}`}>
-            <div className={`w-40 text-right text-sm ${props.away.win ? "font-semibold" : "font-normal"}`}>
-                {props.away.name}
-                <Twemoji emoji={props.away.emoji} className="text-base ml-2" />
+            <div className={`w-40 text-right text-sm`}>
+                <span className={getTeamNameClassName(props.away)}>
+                    {props.away.name}
+                    <Twemoji emoji={props.away.emoji} className="text-base ml-2" />
+                </span>
             </div>
             <div className="w-16 text-sm text-center font-semibold bg-gray-200 dark:bg-gray-800 rounded-sm tabular-nums tracking-tight">
                 {props.away.score}&ensp;-&ensp;{props.home.score}
             </div>
-            <div className={`w-40 text-sm ${props.home.win ? "font-semibold" : "font-normal"}`}>
-                <Twemoji emoji={props.home.emoji} className="text-base mr-2" />
-                {props.home.name}
+            <div className={`w-40 text-sm`}>
+                <span className={getTeamNameClassName(props.home)}>
+                    <Twemoji emoji={props.home.emoji} className="text-base mr-2" />
+                    {props.home.name}
+                </span>
             </div>
         </div>
     );
@@ -193,6 +213,7 @@ export const GameRow = React.memo(
             pitcher: data.homePitcherName,
             predictedPitcher: props.predictedHomePitcher,
             win: data.homeScore >= data.awayScore,
+            gameComplete: data.gameComplete,
         };
 
         const away = {
@@ -202,6 +223,7 @@ export const GameRow = React.memo(
             pitcher: data.awayPitcherName,
             predictedPitcher: props.predictedAwayPitcher,
             win: data.awayScore >= data.homeScore,
+            gameComplete: data.gameComplete,
         };
 
         const weather = props.showWeather ? data.weather : null;
@@ -273,6 +295,7 @@ export const FightRow = React.memo(
             pitcher: data.homePitcherName,
             predictedPitcher: null,
             win: data.homeScore >= data.awayScore,
+            gameComplete: data.gameComplete,
         };
 
         const away = {
@@ -282,6 +305,7 @@ export const FightRow = React.memo(
             pitcher: data.awayPitcherName,
             predictedPitcher: null,
             win: data.awayScore >= data.homeScore,
+            gameComplete: data.gameComplete,
         };
 
         return (
