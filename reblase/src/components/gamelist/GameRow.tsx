@@ -8,8 +8,8 @@ import { getWeather } from "blaseball-lib/weather";
 import Twemoji from "../elements/Twemoji";
 import { displaySeason } from "blaseball-lib/games";
 
-const Events = React.memo((props: { outcomes: string[]; shame: boolean; awayTeam: string }) => {
-    const outcomes = getOutcomes(props.outcomes, props.shame, props.awayTeam);
+const Events = React.memo((props: { outcomes: string[]; shame: boolean; awayTeam: string; startTime: string | null; endTime: string | null; }) => {
+    const outcomes = getOutcomes(props.outcomes, props.shame, props.awayTeam, props.startTime, props.endTime);
     if (!outcomes) return <></>;
 
     const style: Record<string, string> = {
@@ -221,7 +221,12 @@ export const GameRow = React.memo(
                         </div>
 
                         <div className="flex flex-row justify-end items-baseline space-x-2">
-                            <Events outcomes={data.outcomes} shame={data.shame} awayTeam={data.awayTeamNickname} />
+                            <Events 
+                                outcomes={data.outcomes} 
+                                shame={data.shame} 
+                                awayTeam={data.awayTeamNickname}
+                                startTime={props.game.startTime}
+                                endTime={props.game.endTime}/>
                             <Duration
                                 gameId={props.game.gameId}
                                 startTime={props.game.startTime}
@@ -245,7 +250,12 @@ export const GameRow = React.memo(
                     />
 
                     <div className="flex flex-row justify-end items-baseline space-x-2">
-                        <Events outcomes={data.outcomes} shame={data.shame} awayTeam={data.awayTeamNickname} />
+                        <Events 
+                            outcomes={data.outcomes} 
+                            shame={data.shame} 
+                            awayTeam={data.awayTeamNickname}
+                            startTime={props.game.startTime}
+                            endTime={props.game.endTime}/>
                         <Duration
                             gameId={props.game.gameId}
                             startTime={props.game.startTime}
@@ -298,7 +308,12 @@ export const FightRow = React.memo(
                         </div>
 
                         <div className="flex flex-row justify-end items-baseline space-x-2">
-                            <Events outcomes={data.outcomes} shame={data.shame} awayTeam={data.awayTeamNickname} />
+                            <Events 
+                                outcomes={data.outcomes} 
+                                shame={data.shame} 
+                                awayTeam={data.awayTeamNickname}
+                                startTime={null}
+                                endTime={null}/>
                         </div>
                     </div>
                 </div>
@@ -315,7 +330,12 @@ export const FightRow = React.memo(
                     />
 
                     <div className="flex flex-row justify-end items-baseline space-x-2">
-                        <Events outcomes={data.outcomes} shame={data.shame} awayTeam={data.awayTeamNickname} />
+                        <Events 
+                            outcomes={data.outcomes} 
+                            shame={data.shame} 
+                            awayTeam={data.awayTeamNickname}
+                            startTime={null}
+                            endTime={null}/>
                     </div>
                 </div>
             </Link>
