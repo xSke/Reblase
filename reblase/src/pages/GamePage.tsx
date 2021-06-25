@@ -8,6 +8,8 @@ import { useGameUpdates } from "../blaseball/hooks";
 import { BlaseballGame } from "blaseball-lib/models";
 import { Link } from "react-router-dom";
 import { displaySeason } from "blaseball-lib/games";
+import { getWeather } from "blaseball-lib/weather";
+import Twemoji from "components/elements/Twemoji";
 
 interface PayloadProps {
     evt: BlaseballGame;
@@ -15,6 +17,7 @@ interface PayloadProps {
 
 const GameHeading = ({ evt }: PayloadProps) => {
     const location = useLocation();
+    const weather = getWeather(evt.weather);
 
     return (
         <>
@@ -25,12 +28,17 @@ const GameHeading = ({ evt }: PayloadProps) => {
                 <h2 className="text-3xl font-semibold">
                     Season {displaySeason(evt.season)}, Day {evt.day + 1}
                 </h2>
-                <h3>
-                    <strong>{evt.awayTeamName}</strong>
-                    <small> vs. </small>
-                    <strong>{evt.homeTeamName}</strong>
-                </h3>
             </Link>
+
+            <h3 className="mb-2">
+                <strong>{evt.awayTeamName}</strong>
+                <small> vs. </small>
+                <strong>{evt.homeTeamName}</strong>
+            </h3>
+
+            <p className="mb-2">
+                <Twemoji emoji={weather.emoji} /> <strong>{weather.name}</strong>
+            </p>
         </>
     );
 };

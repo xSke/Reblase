@@ -6,6 +6,7 @@ import Emoji from "../elements/Emoji";
 import { BlaseballGame } from "blaseball-lib/models";
 import { ChronFightUpdate, ChronGameUpdate } from "blaseball-lib/chronicler";
 import BaseDisplay from "../elements/BaseDisplay";
+import clsx from "clsx";
 import "./UpdateRow.css";
 
 interface WrappedUpdateProps {
@@ -35,10 +36,12 @@ function Score({ evt }: UpdateProps) {
 }
 
 function GameLog({ evt }: UpdateProps) {
-    const fontWeight = isGameUpdateImportant(evt.lastUpdate, evt.scoreUpdate) ? "font-semibold" : "font-normal";
+    const isImportant = isGameUpdateImportant(evt.lastUpdate, evt.scoreUpdate);
+
     return (
-        <span className={`UpdateRow-GameLog ${fontWeight}`}>
-            {evt.lastUpdate}
+        <span className="UpdateRow-GameLog">
+            <span className={clsx(isImportant && "font-semibold")}>{evt.lastUpdate}</span>
+            {evt.scoreLedger && <em className="block">{evt.scoreLedger}</em>}
             {evt.scoreUpdate && <strong> {evt.scoreUpdate}</strong>}
         </span>
     );

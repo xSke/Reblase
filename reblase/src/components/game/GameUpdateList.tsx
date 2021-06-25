@@ -160,11 +160,10 @@ export function GameUpdateList<TSecondary = undefined>(props: GameUpdateListProp
 
     if (props.updateOrder === "desc") updates.reverse();
 
-    const elements = useMemo(() => addInningHeaderRows(updates, props.updateOrder, props.filterImportant), [
-        updates,
-        props.updateOrder,
-        props.filterImportant,
-    ]);
+    const elements = useMemo(
+        () => addInningHeaderRows(updates, props.updateOrder, props.filterImportant),
+        [updates, props.updateOrder, props.filterImportant]
+    );
 
     const grouped = [];
     for (const elem of elements) {

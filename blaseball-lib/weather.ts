@@ -1,7 +1,7 @@
 export interface WeatherType {
     id: number;
     name: string;
-    emoji?: string;
+    emoji: string;
     background: string;
     color: string;
     forbidden: boolean;
@@ -48,6 +48,7 @@ export const allWeatherTypes = [
         id: 4,
         name: "Sandstorm",
         // icon: WiSandstorm,
+        emoji: "\u{2753}",
         background: "#877652",
         color: "#e0dac3",
         forbidden: true,
@@ -65,6 +66,7 @@ export const allWeatherTypes = [
         id: 6,
         name: "Acidic",
         // icon: WiFog,
+        emoji: "\u{2753}",
         background: "#92ad58",
         color: "#235917",
         forbidden: true,
@@ -199,6 +201,15 @@ export const allWeatherTypes = [
     },
 ];
 
-export function getWeather(id: number): WeatherType | null {
-    return allWeatherTypes[id] ?? null;
+export function getWeather(id: number): WeatherType {
+    return (
+        allWeatherTypes[id] ?? {
+            id,
+            name: "???",
+            emoji: "\u{2753}",
+            background: "#ffffff",
+            color: "#000000",
+            forbidden: true,
+        }
+    );
 }

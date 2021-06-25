@@ -42,6 +42,7 @@
 
 .UpdateRow-GameLog {
     grid-area: gamelog;
+    white-space: pre-line;
 }
 
 .UpdateRow-Batter {

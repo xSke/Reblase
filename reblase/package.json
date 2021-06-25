@@ -5,6 +5,7 @@
     "dependencies": {
         "@tailwindcss/typography": "^0.4.0",
         "blaseball-lib": "*",
+        "clsx": "^1.1.1",
         "dayjs": "^1.8.35",
         "deep-equal": "^2.0.4",
         "query-string": "^6.13.2",
